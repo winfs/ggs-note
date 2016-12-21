@@ -40,7 +40,7 @@ var gLogger *Logger //定义一个Logger对象
 
 //初始化
 func init() {
-	var level int
+	var level int                               // 保存错误级别
 	switch strings.ToLower(conf.Env.LogLevel) { //判断错误级别
 	case "debug":
 		level = debugLevel
@@ -76,10 +76,11 @@ func init() {
 
 		baseLogger = log.New(file, "", log.LstdFlags) //创建一个记录日志的对象，将日志写入到文件
 	} else {
-		baseLogger = log.New(os.Stdout, "", log.LstdFlags) //创建一个记录日志的对象，将日志写入到控制台
+		baseLogger = log.New(os.Stdout, "", log.LstdFlags) //创建一个记录日志的对象，将日志写入到标准输出
 	}
 
-	gLogger = new(Logger) //将当前日志信息保存到gLogger中
+	//将当前日志信息保存到gLogger中
+	gLogger = new(Logger)
 	gLogger.level = level
 	gLogger.baseLogger = baseLogger
 	gLogger.file = file
@@ -157,6 +158,7 @@ func Fatal(format string, a ...interface{}) {
 	gLogger.Fatal(format, a...)
 }
 
+// 关闭日志文件
 func Close() {
 	gLogger.Close()
 }

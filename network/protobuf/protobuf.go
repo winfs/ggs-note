@@ -30,6 +30,7 @@ type MsgInfo struct {
 
 type MsgHandler func([]interface{})
 
+// 初始化
 func NewProcessor() *Processor {
 	p := new(Processor)
 	p.littleEndian = false
@@ -43,6 +44,7 @@ func (p *Processor) SetByteOrder(littleEndian bool) {
 }
 
 // It's dangerous to call the method on routing or marshaling (unmarshaling)
+// 注册消息
 func (p *Processor) Register(msg proto.Message) {
 	msgType := reflect.TypeOf(msg)
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
@@ -62,6 +64,7 @@ func (p *Processor) Register(msg proto.Message) {
 }
 
 // It's dangerous to call the method on routing or marshaling (unmarshaling)
+// 消息交由哪个rpc服务器来处理
 func (p *Processor) SetRouter(msg proto.Message, msgRouter *chanrpc.Server) {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -73,6 +76,7 @@ func (p *Processor) SetRouter(msg proto.Message, msgRouter *chanrpc.Server) {
 }
 
 // It's dangerous to call the method on routing or marshaling (unmarshaling)
+// 消息交由哪个消息处理函数来处理
 func (p *Processor) SetHandler(msg proto.Message, msgHandler MsgHandler) {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -102,6 +106,7 @@ func (p *Processor) Route(msg interface{}, userData interface{}) error {
 }
 
 // goroutine safe
+// 消息解码
 func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 	if len(data) < 2 {
 		return nil, errors.New("protobuf data too short")
@@ -124,6 +129,7 @@ func (p *Processor) Unmarshal(data []byte) (interface{}, error) {
 }
 
 // goroutine safe
+// 消息编码
 func (p *Processor) Marshal(msg interface{}) ([][]byte, error) {
 	msgType := reflect.TypeOf(msg)
 
