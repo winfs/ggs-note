@@ -1,4 +1,4 @@
-//配置相关
+// 配置相关
 package conf
 
 import (
@@ -13,12 +13,12 @@ import (
 
 var Env struct {
 	StackBufLen int
-	LogLevel    string //日志的错误级别(Debug、Info、Warn、Error、Fatal),不区分大小写
-	LogPath     string //日志文件的目录
+	LogLevel    string // 日志的错误级别(Debug、Info、Warn、Error、Fatal),不区分大小写
+	LogPath     string // 日志文件的目录, 不设置则打印到标准输出
 
 	MaxConnNum      int    //最大连接数
 	PendingWriteNum int    //network中用于传递消息的管道长度
-	MaxMsgLen       uint32 //大小消息长度
+	MaxMsgLen       uint32 //最大消息长度
 
 	WSAddr      string        //WebSockeyt监听地址
 	HTTPTimeout time.Duration //请求超时时长
@@ -31,10 +31,10 @@ var Env struct {
 	ProfilePath   string
 }
 
-var EnvPath string
+var EnvPath string // 通过命令行输入的配置文件路径
 
 func init() {
-	flag.StringVar(&EnvPath, "env", "", "path of env file")
+	flag.StringVar(&EnvPath, "env", "", "path of env file") // 注册命令行参数env
 	flag.Parse()
 
 	if EnvPath == "" {
@@ -42,13 +42,13 @@ func init() {
 		os.Exit(1)
 	}
 
-	data, err := ioutil.ReadFile(path.Join(EnvPath, "ggs.env"))
+	data, err := ioutil.ReadFile(path.Join(EnvPath, "ggs.env")) // 读取配置文件
 	if err != nil {
 		fmt.Println("env file not found, path: " + EnvPath)
 		os.Exit(1)
 	}
 
-	err = json.Unmarshal(data, &Env)
+	err = json.Unmarshal(data, &Env) // 解码数据, 存储到Env结构中
 	if err != nil {
 		fmt.Printf("env file format error: %v\n", err)
 		os.Exit(1)

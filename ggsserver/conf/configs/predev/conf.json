@@ -1,0 +1,204 @@
+{
+    "RobItvMin"         : 3,
+    "RobItvMax"         : 5,
+    "RecordMaxLen"      : 4,
+
+    "CityMaxLevel"          : 30,
+    "InvadeProb"            : 1,
+    "InvadeItv"             : 2,
+    "OfflineItv"            : 4,
+    "DefenseTime"           : 30,
+    "CityInvadeAttack"      : 600,
+    "CityDefenseThreshold"  : 20000000000,
+    "CityGoldThreshold"     : 1500000000,
+    "CityTaxSpeedThreshold" : 319149,
+    "CityMaxTaxThreshold"   : 574455000,
+    "CitySecondIncr"        : 0.1,
+    "AttackCiritcal"        : 0.1,
+    "MopTotalCount"         : 10,
+    "MopFreeCount"          : 3,
+    "MopCardInit"           : 1,
+    "MopCardIncr"           : 1,
+
+    "DropPiecesCountProb": [70, 20, 7, 3],
+    "RarenessCityLevel": [1, 10, 20],
+    "LevelNeedPieces": [10, 20, 30],
+    "RarenessWeights": [4, 2, 1],
+    "RareNeedSpirits": [20, 60, 120],
+    "RareNeedWings": [80, 250, 500],
+
+    "InvadeNeedAttack": 200000,
+    "InvadeRefreshItv": 1,
+    "InvadeRefreshNeedWing": 200,
+    "InvadeCityCount": 10,
+    "InvadeHistoryMax": 20,
+    "InvadeDefenseAmplify": 10,
+    "InvadeGoldAmplify": 10,
+    "InvadeTouchLowInit": 200,
+    "InvadeTouchHighInit": 300,
+    "InvadeTouchMax": 1200,
+    "InvadeTouchStep": 10,
+    "InvadeOwnTime": 960,
+
+    "BondNeedSpeeds": [1e9, 5e8, 1e8, 5e7, 1e7, 5e6, 1e6, 5e5, 1e5, 0],
+    "BondSpeedIncrs": [0.7, 0.65, 0.6, 0.55, 0.5, 0.45, 0.4, 0.35, 0.3, 0.05],
+    "BondNeedAttacks": [1e9, 5e8, 1e8, 5e7, 1e7, 5e6, 1e6, 5e5, 1e5, 0],
+    "BondAttackIncrs": [0.1, 0.08, 0.06, 0.04, 0.035, 0.03, 0.025, 0.02, 0.015, 0.01],
+    "BondLoginBonus": 2,
+    "BondLimitInit": 1,
+    "BondLimitLimit": 50,
+    "BondLimitIncrNeedWings": 4000,
+    "BondDuration": 60,
+
+    "WarWingAward": [50, 47, 45, 40, 37, 35, 32, 30, 25, 20, 10],
+    "WarRankUserNum": 10,
+	"WarDefenseMin": 36000000000000,
+    "WarDefenseMaxTime": 1800,
+
+    "AutoKillCapacityInit": 2,
+    "AutoKillNeedGoldInit": 1000,
+    "AutoKillNeedGoldIncr": 2,
+    "AutoKillBuyMaxCount": 20,
+
+    "RecruitAmount": [1, 10, 50],
+    "SoldierConsumeInitProb": 20,
+    "SoldierConsumeProbStep": 1,
+    "SoldierConsumeProbMin": 0,
+    "SoldierConsumeAmount": 1,
+	"SoldierConsumeProbUnit": 5,
+	"SoldierConsumeProbs": [0.5, 0.5, 0.5, 0.4, 0.35, 0.3, 0.25, 0.2, 0.15, 0.1, 0.05],
+    "RareSoldiers": [8, 9, 10],
+
+    "OwnCityAwardUpdateTime": 23,
+    "OwnCityAwardCount": 10,
+
+    "NoticeHightlightColor": "0xF2BF4B",
+    "NoticeGeneralColors": ["0x2ee460", "0x2ccbea", "0xc561fa"],
+
+    "AwardCodeLen": 8,
+    "GiftCode": "8ye580o0",
+    "SubscribeGiftWing": 100,
+
+    "PurgeSpeedRankTime": 4,
+    "LazyStandard": 30,
+    "PurgeSpeedStandard": 85,
+    "OfflineSpeedShrink": 0.05,
+    "SignInNeedDays": 15,
+
+    "Spirit": {
+        "DropProb": 0.5,
+        "DropRange": [1, 4]
+    },
+
+    "SpiritShop": {
+        "FreeRefreshLimit": 10,
+        "FreeRefreshRecoverTime": 120,
+        "RefreshNeedWing": 50,
+        "PaidRefreshLimit": 30,
+        "SpiritPrice": 5,
+        "PurpleGeneralProb": 0.3
+    },
+
+    "Escort": {
+        "SystemPublishNum": 3,
+        "PublishMinWings": 100,
+        "AcceptMax": 1,
+        "RetractFee": 0.1,
+        "FreeRefreshLimit": 10,
+        "RefreshNeedWing": 50,
+        "HistoryMaxLen": 100,
+        "AccelerateNeedWing": 50,
+        "AcceleratePercent": 0.1,
+        "AcceptNeedAttack": 200000,
+        "RareSoldierProb": 0.03,
+        "PublishRankAttackIncrs": [0.2, 0.15, 0.1, 0.07, 0.06, 0.05, 0.04, 0.03, 0.02, 0.01],
+        "Create": {
+            "SuccessProbRange": [0.3, 0.99],
+            "PurpleGeneralProbRange": [0.3, 0.6],
+            "PurpleGeneralProb": 0.43,
+            "SpiritProb": 0.8,
+            "SpiritCountRange": [5, 20],
+            "SoldierProb": 0.8,
+            "SoldierCountRange": [1, 5],
+            "GoldProb": 0,
+            "GoldCountRange": [100000, 1000000],
+            "DistanceRange": [408.94, 1134.3],
+            "DurationRange": [1800, 7200],
+            "AcceptNeedGold": {
+                "GeneralRarePrice": [10000, 1000000, 10000000],
+                "GoldParam": 0,
+                "SpiritPrice": 100000
+            }
+        },
+        "Running": {
+            "InitHealth": 10000,
+            "RecoverPercentRange": [10, 30],
+            "EventIntervalRange": [60, 300],
+            "HealthFluctuateRange": [50, 150],
+            "RecoverMaxTimes": 3
+        },
+        "Rob": {
+            "Max": 3,
+            "CoolTime": 600,
+            "NeedGoldPerWing": 10000,
+            "NeedGoldParam": 0.1,
+            "UserRobMaxPercent": 0.5,
+            "AttackLossMaxPercent": 0.02,
+            "SoldierAwardRange": [1, 3],
+            "SpiritAwardRange": [5, 20],
+            "CoolNeedWing": 20
+        }
+    },
+
+    "Rescue": {
+        "FirstStart": "2016-09-13 17:05",
+        "Duration": "1h",
+        "NewServerDelay": "90m",
+        "ChancesMax": 5,
+        "AttackTimeLimit": 30,
+        "OffRankSpiritRange": [10, 50],
+        "ChanceWingsBase": 50,
+        "ChanceWingsIncr": 1.26,
+        "ChanceWingsMax": 400,
+        "Interval": "1h",
+
+        "HPMax": {
+            "UserNum": 100,
+            "RescuePerDay": 6,
+            "Days": 2,
+            "Touch": 300,
+            "SoldierAttack": 2264343,
+            "SoldierCount": 5,
+            "SoldierGearIncr": 8,
+            "Factor": 19.37
+        }
+    },
+
+    "Compete": {
+        "FreeAttackMax": 10,
+        "AttackWingsBase": 100,
+        "AttackWingsIncr": 1.2,
+        "AttackWingsMax": 500
+    },
+
+    "Tavern": {
+        "NeedWings": [1000, 18000],
+        "PurpleGeneralProb": 0.1,
+        "FreeCount": 1,
+        "TwoSoldierProb": 0.3,
+        "BonusNeedCount": 10
+    },
+
+    "Stair": {
+        "TicketMaxCount": 5,
+        "TicketRestoreMinutes": 120,
+        "AttackEqualWinProb": 0.9,
+        "CityDropTicketProb": 0.06667,
+        "TicketMaxChallenges": 5
+    },
+
+    "SecureKey": "e7c264a9029137606f71b87e6cd2f7fd",
+    "ApiUrls": {
+        "WechatSubscribe": "http://"
+    }
+}
