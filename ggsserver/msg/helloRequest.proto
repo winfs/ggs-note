@@ -1,0 +1,5 @@
+package msg;
+
+message HelloRequest {
+    optional string name = 1;
+}
