@@ -10,14 +10,14 @@ import (
 
 // one dispatcher per goroutine (goroutine not safe)
 
-//定时分发器
+//定时器
 type Dispatcher struct {
-	ChanTimer chan *Timer //用户传输timer信息的管道
+	ChanTimer chan *Timer //用户传输Timer信息的管道
 }
 
-//创建定时分发器
+//创建定时器
 func NewDispatcher(l int) *Dispatcher {
-	disp := new(Dispatcher)               //创建定时分发器
+	disp := new(Dispatcher)               //创建定时器
 	disp.ChanTimer = make(chan *Timer, l) //创建用于传递Timer信息的管道
 	return disp
 }
@@ -36,8 +36,8 @@ func (t *Timer) Stop() {
 
 //执行回调
 func (t *Timer) Cb() {
-	defer func() { //延迟捕获异常
-		t.cb = nil //清空回调函数
+	defer func() {
+		t.cb = nil //出现异常时清空回调函数
 		if r := recover(); r != nil {
 			if conf.Env.StackBufLen > 0 {
 				buf := make([]byte, conf.Env.StackBufLen)
@@ -59,14 +59,14 @@ func (disp *Dispatcher) AfterFunc(d time.Duration, cb func()) *Timer {
 	t := new(Timer)                  //创建Timer
 	t.cb = cb                        //保存回调函数
 	t.t = time.AfterFunc(d, func() { //另起一个goroutine等待时间段d过去后调用func
-		disp.ChanTimer <- t //将Timer发送到定时分发器的ChanTimer管道中
+		disp.ChanTimer <- t //将t发送到定时器的Timer信息管道中
 	})
 	return t
 }
 
 // Cron
 type Cron struct {
-	t *Timer
+	t *Timer //Timer类型引用
 }
 
 //停止Cron

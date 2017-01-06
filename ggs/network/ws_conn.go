@@ -21,20 +21,21 @@ type WSConn struct {
 	closeFlag bool            //连接关闭标志
 }
 
-//创建WebSocket连接
+//创建WSConn对象
 func newWSConn(conn *websocket.Conn) *WSConn {
 	wsConn := new(WSConn)                                          //创建一个WSConn对象
 	wsConn.conn = conn                                             //保存WebSocket的连接对象
 	wsConn.writeChan = make(chan []byte, conf.Env.PendingWriteNum) //创建一个用于传递消息的管道
 	wsConn.maxMsgLen = conf.Env.MaxMsgLen                          //设置可以传递的最大消息长度
 
-	go func() { //开启一个新的goroutine,读取消息管道中的数据，并写入消息
-		for b := range wsConn.writeChan {
+	//开启一个新的goroutine,读取消息管道中的数据，并写入消息
+	go func() {
+		for b := range wsConn.writeChan { // 遍历消息管道的内容
 			if b == nil {
 				break
 			}
 
-			err := conn.WriteMessage(websocket.BinaryMessage, b)
+			err := conn.WriteMessage(websocket.BinaryMessage, b) // 写入二进制数据消息
 			if err != nil {
 				break
 			}

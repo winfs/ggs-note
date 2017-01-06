@@ -87,7 +87,7 @@ func (a *agent) OnClose() {
 	}
 }
 
-// 写入消息
+// 给客户端回应消息
 func (a *agent) WriteMsg(msg interface{}) {
 	if a.gate.Processor != nil { // 网关对象的消息处理器不为空
 		data, err := a.gate.Processor.Marshal(msg) // 编码消息

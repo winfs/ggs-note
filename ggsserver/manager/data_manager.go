@@ -39,8 +39,10 @@ func init() {
 }
 
 func NewDataManager(uid string, agent gate.Agent, deviceId uint32) (dataManager *DataManager, err error) {
+	// 检查用户是否重复登录，如果是，则回复重复登录错误信息，并断开连接
 	checkMultiLogin(uid, deviceId)
 
+	// 获取用户的所有信息
 	data, err := db.Redis.Cmd("HGETALL", getUserKey(uid)).Map()
 	if err != nil {
 		return
@@ -50,14 +52,20 @@ func NewDataManager(uid string, agent gate.Agent, deviceId uint32) (dataManager 
 		agent:    agent,
 		DeviceId: deviceId,
 	}
+
+	// 初始化操作
 	dataManager.UM = newUserManager(dataManager)
 
+	//
 	err = dataManager.OnLoad(data, uid)
 	if err != nil {
 		return
 	}
 
+	// 存储uid => DM的映射
 	Users.Set(uid, dataManager)
+
+	//
 	dataManager.afterLoad(data)
 
 	return
@@ -69,10 +77,10 @@ func checkMultiLogin(uid string, deviceId uint32) {
 		d := dm.(*DataManager)
 		if d.DeviceId != deviceId {
 			d.SendError(5, "") // 发送重复登录的错误消息
-			d.agent.Close()
+			d.agent.Close()    // 关闭连接
 		}
 
-		d.Clear()
+		d.Clear() // 最后的清除工作
 	}
 }
 
@@ -90,6 +98,7 @@ func (d *DataManager) Clear() {
 	dm.L.Unlock()
 }
 
+// 如果存在则移除
 func (d *DataManager) Destory() {
 	d2, _ := Users.Get(d.UM.userId())
 	if d == d2 {
@@ -131,11 +140,12 @@ func (d *DataManager) OnSave() (err error) {
 	return
 }
 
+// 给客户端回复消息
 func (d *DataManager) WriteMsg(msg interface{}) {
 	d.agent.WriteMsg(msg)
 }
 
-// 响应失败
+// 给客户端回复响应失败消息
 func (d *DataManager) ResponseErr(code uint32, desc string, byAction uint32) {
 	log.Debug("response error status, code: %v, desc: %v, action: %v", code, desc, byAction)
 	d.agent.WriteMsg(&msg.Status{
@@ -145,7 +155,7 @@ func (d *DataManager) ResponseErr(code uint32, desc string, byAction uint32) {
 	})
 }
 
-// 响应成功
+// 给客户端回复响应成功消息
 func (d *DataManager) ResponseDone(desc string, byAction uint32) {
 	log.Debug("response success status, desc: %v, action: %v", desc, byAction)
 	d.agent.WriteMsg(&msg.Status{
@@ -155,7 +165,7 @@ func (d *DataManager) ResponseDone(desc string, byAction uint32) {
 	})
 }
 
-// 登录响应
+// 给客户端回复登录响应消息
 func (d *DataManager) Response() {
 	m := &msg.Login{
 		User: d.UM.responseMsg(),
