@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
 	"time"
@@ -14,33 +15,29 @@ import (
 var Env struct {
 	StackBufLen int
 	LogLevel    string // 日志的错误级别(Debug、Info、Warn、Error、Fatal),不区分大小写
-	LogPath     string // 日志文件的目录, 不设置则打印到标准输出
+	LogPath     string // 日志文件路径, 不设置则打印到标准输出
 
-	MaxConnNum      int    //最大连接数
-	PendingWriteNum int    //network中用于传递消息的管道长度
-	MaxMsgLen       uint32 //最大消息长度
+	MaxConnNum      int    // 最大连接数
+	PendingWriteNum int    // network中用于传递消息的管道长度
+	MaxMsgLen       uint32 // 最大消息长度
 
-	WSAddr      string        //WebSockeyt监听地址
-	HTTPTimeout time.Duration //请求超时时长
+	WSAddr      string        // WebSockeyt监听地址
+	HTTPTimeout time.Duration // 请求超时时长
 
-	ChanRPCLen         int //RPC服务器中用于传递调用信息的管道长度
-	TimerDispatcherLen int //定时分发器中用于传递Timer信息的管道长度
+	ChanRPCLen         int // RPC服务器中用于传递调用信息的管道长度
+	TimerDispatcherLen int // 定时器中用于传递Timer信息的管道长度
 
+	// console
 	ConsolePort   int
 	ConsolePrompt string
 	ProfilePath   string
 }
 
-var EnvPath string // 通过命令行输入的配置文件路径
+var EnvPath string      // 游戏服务器的配置文件路径
+var CrossEnvPath string // 跨服服务器的配置文件路径
 
 func init() {
-	flag.StringVar(&EnvPath, "env", "", "path of env file") // 注册命令行参数env
-	flag.Parse()
-
-	if EnvPath == "" {
-		fmt.Println("param -env no set")
-		os.Exit(1)
-	}
+	initFlags()
 
 	data, err := ioutil.ReadFile(path.Join(EnvPath, "ggs.env")) // 读取配置文件
 	if err != nil {
@@ -64,5 +61,20 @@ func init() {
 			fmt.Println("invalid HTTPTimeout, reset to %v", Env.HTTPTimeout)
 		}
 		Env.HTTPTimeout *= time.Second
+	}
+}
+
+func initFlags() {
+	// 注册命令行参数
+	flag.StringVar(&EnvPath, "env", "", "path of env file")
+	flag.StringVar(&CrossEnvPath, "cross-env", "", "path of cross env file")
+
+	falg.Parse()
+
+	if EnvPath == "" {
+		log.Fatal("flag env not set")
+	}
+	if CrossEnvPath == "" {
+		log.Fatal("falg cross-env not set")
 	}
 }

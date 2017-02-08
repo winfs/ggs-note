@@ -1,4 +1,4 @@
-//用于管理游戏数据
+// 用于管理游戏配置数据
 package recordfile
 
 import (
@@ -11,8 +11,8 @@ import (
 	"strconv"
 )
 
-var Comma = '\t'
-var Comment = '#'
+var Comma = '\t'  // 字段分隔符
+var Comment = '#' // 一行开始位置的注释标识符
 
 type Index map[interface{}]interface{}
 
@@ -24,17 +24,18 @@ type RecordFile struct {
 	indexes    []Index
 }
 
+// 初始化RecordFile
 func New(st interface{}) (*RecordFile, error) {
-	typeRecord := reflect.TypeOf(st)
-	if typeRecord == nil || typeRecord.Kind() != reflect.Struct {
+	typeRecord := reflect.TypeOf(st)                              // 返回st的类型
+	if typeRecord == nil || typeRecord.Kind() != reflect.Struct { // 类型不匹配
 		return nil, errors.New("st must be a struct")
 	}
 
-	for i := 0; i < typeRecord.NumField(); i++ {
-		f := typeRecord.Field(i)
+	for i := 0; i < typeRecord.NumField(); i++ { // 遍历结构体类型值的字段数
+		f := typeRecord.Field(i) // 返回结构体的第i个字段
 
-		kind := f.Type.Kind()
-		switch kind {
+		kind := f.Type.Kind() // 返回当前字段的类型名
+		switch kind {         // 判断自动类型
 		case reflect.Bool:
 		case reflect.Int:
 		case reflect.Int8:
@@ -68,7 +69,7 @@ func New(st interface{}) (*RecordFile, error) {
 	}
 
 	rf := new(RecordFile)
-	rf.typeRecord = typeRecord
+	rf.typeRecord = typeRecord // 保存st的类型
 
 	return rf, nil
 }
@@ -199,14 +200,17 @@ func (rf *RecordFile) Read(name string) error {
 	return nil
 }
 
+// 返回第i条记录
 func (rf *RecordFile) Record(i int) interface{} {
 	return rf.records[i]
 }
 
+// 返回总记录数
 func (rf *RecordFile) NumRecord() int {
 	return len(rf.records)
 }
 
+// 获取某一列的索引集合
 func (rf *RecordFile) Indexes(i int) Index {
 	if i >= len(rf.indexes) {
 		return nil
@@ -214,7 +218,7 @@ func (rf *RecordFile) Indexes(i int) Index {
 	return rf.indexes[i]
 }
 
-//按索引查找
+// 按索引查找对应记录
 func (rf *RecordFile) Index(i interface{}) interface{} {
 	index := rf.Indexes(0)
 	if index == nil {

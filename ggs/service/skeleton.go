@@ -8,61 +8,59 @@ import (
 	"time"
 )
 
-//骨架
+// 骨架
 type Skeleton struct {
-	chanRPCServer *chanrpc.Server   //PRC服务器引用
-	dispatcher    *timer.Dispatcher //定时器分发器
+	chanRPCServer *chanrpc.Server   // PRC服务器引用
+	dispatcher    *timer.Dispatcher // 定时器引用
 }
 
-//创建骨架
+// 创建骨架
 func NewSkeleton() *Skeleton {
 	skeleton := &Skeleton{
-		chanRPCServer: chanrpc.NewServer(conf.Env.ChanRPCLen),           //创建rpc服务器
-		dispatcher:    timer.NewDispatcher(conf.Env.TimerDispatcherLen), //创建定时器分发器
+		chanRPCServer: chanrpc.NewServer(conf.Env.ChanRPCLen),           // 创建RPC服务器
+		dispatcher:    timer.NewDispatcher(conf.Env.TimerDispatcherLen), // 创建定时器
 	}
 	return skeleton
 }
 
-//获取创建的rpc服务器
+// 获取创建的RPC服务器
 func (s *Skeleton) ChanRPCServer() *chanrpc.Server {
 	return s.chanRPCServer
 }
 
-//实现了Service接口的Run方法并提供了：
-//1.ChanRPC(用于模块间交互)
-//2.timer(用于定时器)
+// 实现Service接口的Run方法
 func (s *Skeleton) Run(closeSig chan bool) {
-	for { //死循环
+	for { // 一直循环
 		select {
-		case <-closeSig: //读取关闭信号
-			s.chanRPCServer.Close() //关闭rpc服务器
+		case <-closeSig: //读取到关闭信号
+			s.chanRPCServer.Close() // 关闭RPC服务器
 			return
-		case ci := <-s.chanRPCServer.ChanCall: //从rpc服务器读取调用信息
-			err := s.chanRPCServer.Exec(ci) //执行调用
+		case ci := <-s.chanRPCServer.ChanCall: // 从RPC服务器读取调用信息
+			err := s.chanRPCServer.Exec(ci) // 执行调用
 			if err != nil {
 				log.Error("%v", err)
 			}
-		case t := <-s.dispatcher.ChanTimer: //从分发器中读取到定时信息
-			t.Cb() //执行定时器回调
+		case t := <-s.dispatcher.ChanTimer: // 从定时器中读取到定时信息
+			t.Cb() // 执行定时器回调
 		}
 	}
 }
 
-//向管道PRC注册函数
+// 向RPC服务器注册函数f
 func (s *Skeleton) RegisterChanRPC(id interface{}, f interface{}) {
-	if s.chanRPCServer == nil { //外部没有传入RPC服务器
-		panic("invalid ChanRPCServer") //抛错
+	if s.chanRPCServer == nil { // 外部没有传入RPC服务器
+		panic("invalid ChanRPCServer") // 抛错
 	}
 
-	s.chanRPCServer.Register(id, f) //注册函数f
+	s.chanRPCServer.Register(id, f) // 注册函数f
 }
 
-//注册定时器
+// 定时器
 func (s *Skeleton) AfterFunc(d time.Duration, cb func()) *timer.Timer {
 	return s.dispatcher.AfterFunc(d, cb)
 }
 
-//注册cron
+// 支持cron表达式的定时器
 func (s *Skeleton) CronFunc(cronExpr *timer.CronExpr, cb func()) *timer.Cron {
 	return s.dispatcher.CronFunc(cronExpr, cb)
 }

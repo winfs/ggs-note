@@ -18,32 +18,31 @@ import (
 // Month        | Yes        | 1-12           | * / , -
 // Day of week  | Yes        | 0-6            | * / , -
 type CronExpr struct {
-	sec   uint64 //秒
-	min   uint64 //分
-	hour  uint64 //时
-	dom   uint64 //一个月中的第几天
-	month uint64 //月
-	dow   uint64 //一个星期中的第几天
+	sec   uint64 // 秒
+	min   uint64 // 分
+	hour  uint64 // 时
+	dom   uint64 // 一个月中的第几天
+	month uint64 // 月
+	dow   uint64 // 一个星期中的第几天
 }
 
 // goroutine safe
 
-//创建cron表达式
+// 创建cron表达式
 func NewCronExpr(expr string) (cronExpr *CronExpr, err error) {
-	fields := strings.Fields(expr)            //用空格分割表达式
-	if len(fields) != 5 && len(fields) != 6 { //数组长度为5或6，因为Seconds不是强制设置的
+	fields := strings.Fields(expr)            // 用空格分割表达式
+	if len(fields) != 5 && len(fields) != 6 { // 数组长度为5或6，因为Seconds不是强制设置的
 		err = fmt.Errorf("invalid expr %v: expected 5 or 6 fields, got %v", expr, len(fields))
 		return
 	}
 
-	if len(fields) == 5 { //没有设置Seconds，自己在最前面添加一个0
+	if len(fields) == 5 { // 没有设置Seconds，自己在最前面添加一个0
 		fields = append([]string{"0"}, fields...)
 	}
 
-	cronExpr = new(CronExpr) //创建一个cron表达式
+	cronExpr = new(CronExpr) // 创建一个cron表达式
 
-	//解析字段
-
+	/* 解析字段 */
 	// Seconds
 	cronExpr.sec, err = parseCronField(fields[0], 0, 59)
 	if err != nil {
@@ -87,8 +86,6 @@ onError:
 // 4. */num
 // 5. num/num (means num-max/num)
 // 6. num-num/num
-
-//解析字段
 func parseCronField(field string, min int, max int) (cronField uint64, err error) {
 	fields := strings.Split(field, ",")
 	for _, field := range fields {
@@ -194,6 +191,7 @@ func (e *CronExpr) matchDay(t time.Time) bool {
 }
 
 // goroutine safe
+// 下一次执行的时间
 func (e *CronExpr) Next(t time.Time) time.Time {
 	// the upcoming second
 	t = t.Truncate(time.Second).Add(time.Second)
