@@ -1,6 +1,0 @@
-package msg;
-
-message Error {
-    required uint32 code = 1;
-    optional string desc = 2;
-}

@@ -1,9 +1,0 @@
-package msg;
-
-message Hello {
-    optional string name = 1;
-}
-
-message HelloRequest {
-    optional string name = 1;
-}

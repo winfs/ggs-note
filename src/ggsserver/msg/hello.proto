@@ -1,0 +1,6 @@
+package msg;
+
+// id: 0
+message Hello {
+    required string name = 1;
+}

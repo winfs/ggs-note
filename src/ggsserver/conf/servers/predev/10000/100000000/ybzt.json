@@ -1,0 +1,16 @@
+{
+    "Names": {
+        "100000000": "S1"
+    },
+
+    "EnvPath": "/root/ggsserver/configs/predev",
+    "RedisPort": "7613",
+    "ApiPort": "1467",
+    "CrossServer": {
+        "Addr": "127.0.0.1:19870"
+    },
+
+    "NewServerActivityOn": true,
+    "NewServerActivityStart": "2016-06-17 15:00",
+    "NewServerActivityDuration": "168h"
+}

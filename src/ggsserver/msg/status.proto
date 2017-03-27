@@ -1,0 +1,10 @@
+package msg;
+
+// id: 1
+message Status {
+    required uint32 code = 1;
+    required string description = 2;
+    required uint32 byAction = 3;
+    optional string uid = 4;
+    optional string param = 5;
+}

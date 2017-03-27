@@ -1,0 +1,15 @@
+package msg;
+
+import "user.proto";
+
+// id: 2
+message Login {
+    required User user = 1;
+}
+
+// id: 24
+message loginRequest {
+    required string token = 1;
+    required uint32 deviceId = 2;
+    required uint32 version = 3;
+}

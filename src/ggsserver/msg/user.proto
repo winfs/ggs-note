@@ -1,0 +1,34 @@
+package msg;
+
+// id: 17
+message User {
+    optional string id = 1;
+    optional string name = 2;
+    optional string avatar = 3;
+    optional uint32 offlineTime = 4;
+    optional string countryName = 5;
+    optional KingLisence kingLisence = 6;
+    repeated double charges = 7;
+    optional bool isNew = 8;
+    optional uint32 sex = 9;
+}
+
+message KingLisence {
+    optional string name = 1;
+    optional uint32 have = 2;
+    optional int32 remain = 3;
+    optional uint32 giveWings = 4;
+    optional double attackIncr = 5;
+    optional double speedIncr = 6;
+    optional double offlineIncomeIncr = 7;
+    optional uint32 invadeListIncr = 8;
+}
+
+message UserInfo {
+    optional string name = 1;
+    optional string avatar = 2;
+    optional double speed = 3;
+    optional double attack = 4;
+    optional uint32 attackCityNum = 5;
+    optional uint32 ownCityNum = 6;
+}
