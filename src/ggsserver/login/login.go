@@ -6,6 +6,7 @@ import (
 	"ggs/gate"
 	"ggs/log"
 	"ggs/service"
+
 	"ggsserver/db"
 	"ggsserver/manager"
 	"ggsserver/msg"
@@ -79,7 +80,7 @@ func handleLoginRequest(args []interface{}) {
 		return
 	}
 	if shielded {
-		responseError(a, 7, userId)
+		responseError(a, 7, userId) // 如果用户禁止登录，则给客户端回复错误消息,并返回
 		return
 	}
 

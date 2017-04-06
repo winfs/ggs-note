@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/binary"
 	"log"
+	"os"
 	"sync"
+	"time"
 
 	"ggs/conf"
 
@@ -34,7 +36,8 @@ func main() {
 func connect() {
 	getReceive := readMsg()
 
-	sendHelloRequest()
+	//sendHelloRequest()
+	sendLoginRequest()
 
 	<-getReceive
 	return
@@ -108,4 +111,13 @@ func sendHelloRequest() {
 	sendMsg(&msg.Hello{
 		Name: proto.String("hello"),
 	}, 0)
+}
+
+func sendLoginRequest() {
+	token := os.Args[3]
+	sendMsg(&msg.LoginRequest{
+		Token:    proto.String(token),
+		DeviceId: proto.Uint32(uint32(time.Now().Unix())),
+		Version:  proto.Uint32(1),
+	}, 24)
 }
