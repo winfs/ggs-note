@@ -17,15 +17,15 @@ import (
 // | id | protobuf message |
 // -------------------------
 type Processor struct {
-	littleEndian bool
-	msgInfo      []*MsgInfo
-	msgID        map[reflect.Type]uint16
+	littleEndian bool                    // 字节排序
+	msgInfo      []*MsgInfo              // 注册的消息集合
+	msgID        map[reflect.Type]uint16 // 消息类型 => ID的映射
 }
 
 type MsgInfo struct {
-	msgType    reflect.Type
-	msgRouter  *chanrpc.Server
-	msgHandler MsgHandler
+	msgType    reflect.Type    // 消息类型
+	msgRouter  *chanrpc.Server // rpc模块
+	msgHandler MsgHandler      // 消息处理函数
 }
 
 type MsgHandler func([]interface{})
@@ -44,27 +44,28 @@ func (p *Processor) SetByteOrder(littleEndian bool) {
 }
 
 // It's dangerous to call the method on routing or marshaling (unmarshaling)
-// 注册消息
+// 注册proto消息
 func (p *Processor) Register(msg proto.Message) {
-	msgType := reflect.TypeOf(msg)
+	msgType := reflect.TypeOf(msg) // 判断消息类型
 	if msgType == nil || msgType.Kind() != reflect.Ptr {
 		log.Fatal("protobuf message pointer required")
 	}
-	if _, ok := p.msgID[msgType]; ok {
+	if _, ok := p.msgID[msgType]; ok { // 判断消息是否已被注册
 		log.Fatal("message %s is already registered", msgType)
 	}
-	if len(p.msgInfo) >= math.MaxUint16 {
+	if len(p.msgInfo) >= math.MaxUint16 { // 判断是否已超出最大的注册消息个数
 		log.Fatal("too many protobuf messages (max = %v)", math.MaxUint16)
 	}
 
+	// 追加一条消息
 	i := new(MsgInfo)
 	i.msgType = msgType
 	p.msgInfo = append(p.msgInfo, i)
-	p.msgID[msgType] = uint16(len(p.msgInfo) - 1)
+	p.msgID[msgType] = uint16(len(p.msgInfo) - 1) // 初始消息ID为0，之后每加一条消息ID加1 ==> 与msgInfo索引保持一致
 }
 
 // It's dangerous to call the method on routing or marshaling (unmarshaling)
-// 消息交由哪个rpc服务器来处理
+// 设置消息交由哪个rpc模块来处理
 func (p *Processor) SetRouter(msg proto.Message, msgRouter *chanrpc.Server) {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -72,11 +73,11 @@ func (p *Processor) SetRouter(msg proto.Message, msgRouter *chanrpc.Server) {
 		log.Fatal("message %s not registered", msgType)
 	}
 
-	p.msgInfo[id].msgRouter = msgRouter
+	p.msgInfo[id].msgRouter = msgRouter // 设置当前消息的rpc模块
 }
 
 // It's dangerous to call the method on routing or marshaling (unmarshaling)
-// 消息交由哪个消息处理函数来处理
+// 设置消息交由哪个消息处理函数来处理
 func (p *Processor) SetHandler(msg proto.Message, msgHandler MsgHandler) {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -84,10 +85,11 @@ func (p *Processor) SetHandler(msg proto.Message, msgHandler MsgHandler) {
 		log.Fatal("message %s not registered", msgType)
 	}
 
-	p.msgInfo[id].msgHandler = msgHandler
+	p.msgInfo[id].msgHandler = msgHandler // 设置当前消息的消息处理函数
 }
 
 // goroutine safe
+// 消息的路由分发(将消息交由rpc模块或者消息处理函数来处理)
 func (p *Processor) Route(msg interface{}, userData interface{}) error {
 	msgType := reflect.TypeOf(msg)
 	id, ok := p.msgID[msgType]
@@ -95,7 +97,7 @@ func (p *Processor) Route(msg interface{}, userData interface{}) error {
 		return fmt.Errorf("message %s not registered", msgType)
 	}
 
-	i := p.msgInfo[id]
+	i := p.msgInfo[id] // 获取当前消息
 	if i.msgHandler != nil {
 		i.msgHandler([]interface{}{msg, userData})
 	}

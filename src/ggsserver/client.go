@@ -119,5 +119,5 @@ func sendLoginRequest() {
 		Token:    proto.String(token),
 		DeviceId: proto.Uint32(uint32(time.Now().Unix())),
 		Version:  proto.Uint32(1),
-	}, 24)
+	}, 5)
 }

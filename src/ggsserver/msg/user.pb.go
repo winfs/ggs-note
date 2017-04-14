@@ -30,7 +30,7 @@ type User struct {
 func (m *User) Reset()                    { *m = User{} }
 func (m *User) String() string            { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()               {}
-func (*User) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
+func (*User) Descriptor() ([]byte, []int) { return fileDescriptor5, []int{0} }
 
 func (m *User) GetId() string {
 	if m != nil && m.Id != nil {
@@ -110,7 +110,7 @@ type KingLisence struct {
 func (m *KingLisence) Reset()                    { *m = KingLisence{} }
 func (m *KingLisence) String() string            { return proto.CompactTextString(m) }
 func (*KingLisence) ProtoMessage()               {}
-func (*KingLisence) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{1} }
+func (*KingLisence) Descriptor() ([]byte, []int) { return fileDescriptor5, []int{1} }
 
 func (m *KingLisence) GetName() string {
 	if m != nil && m.Name != nil {
@@ -181,7 +181,7 @@ type UserInfo struct {
 func (m *UserInfo) Reset()                    { *m = UserInfo{} }
 func (m *UserInfo) String() string            { return proto.CompactTextString(m) }
 func (*UserInfo) ProtoMessage()               {}
-func (*UserInfo) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{2} }
+func (*UserInfo) Descriptor() ([]byte, []int) { return fileDescriptor5, []int{2} }
 
 func (m *UserInfo) GetName() string {
 	if m != nil && m.Name != nil {
@@ -231,9 +231,9 @@ func init() {
 	proto.RegisterType((*UserInfo)(nil), "msg.UserInfo")
 }
 
-func init() { proto.RegisterFile("user.proto", fileDescriptor4) }
+func init() { proto.RegisterFile("user.proto", fileDescriptor5) }
 
-var fileDescriptor4 = []byte{
+var fileDescriptor5 = []byte{
 	// 384 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x92, 0x4f, 0x8b, 0xd4, 0x40,
 	0x10, 0xc5, 0xe9, 0xfc, 0x9b, 0x4c, 0x85, 0x2c, 0x6b, 0xb1, 0x48, 0x1f, 0x44, 0xc2, 0x20, 0x92,

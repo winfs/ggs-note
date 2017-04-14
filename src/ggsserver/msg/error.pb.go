@@ -9,6 +9,7 @@ It is generated from these files:
 	error.proto
 	hello.proto
 	login.proto
+	spare.proto
 	status.proto
 	user.proto
 
@@ -17,6 +18,16 @@ It has these top-level messages:
 	Hello
 	Login
 	LoginRequest
+	Spare0
+	Spare1
+	Spare2
+	Spare3
+	Spare4
+	Spare5
+	Spare6
+	Spare7
+	Spare8
+	Spare9
 	Status
 	User
 	KingLisence

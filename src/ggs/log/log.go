@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"ggs/conf"
+
+	"github.com/fatih/color"
 )
 
 // 错误级别
@@ -96,6 +98,7 @@ func (logger *Logger) Close() {
 }
 
 // 打印日志信息(内部)
+/*
 func (logger *Logger) printf(level int, printLevel string, format string, a ...interface{}) {
 	if level < logger.level {
 		return
@@ -111,26 +114,42 @@ func (logger *Logger) printf(level int, printLevel string, format string, a ...i
 		os.Exit(1)
 	}
 }
+*/
+
+func (logger *Logger) printf(level int, printLevel string, info string) {
+	if level < logger.level {
+		return
+	}
+	if logger.baseLogger == nil {
+		panic("logger closed")
+	}
+
+	logger.baseLogger.Println(printLevel + info) // 写入日志信息
+
+	if level == fatalLevel { // 如果为严重错误级别则终止程序
+		os.Exit(1)
+	}
+}
 
 /* 写入对应级别的日志信息 */
 func (logger *Logger) Debug(format string, a ...interface{}) {
-	logger.printf(debugLevel, printDebugLevel, format, a...)
+	logger.printf(debugLevel, printDebugLevel, color.BlueString(format, a...))
 }
 
 func (logger *Logger) Info(format string, a ...interface{}) {
-	logger.printf(infoLevel, printInfoLevel, format, a...)
+	logger.printf(infoLevel, printInfoLevel, color.CyanString(format, a...))
 }
 
 func (logger *Logger) Warn(format string, a ...interface{}) {
-	logger.printf(warnLevel, printWarnLevel, format, a...)
+	logger.printf(warnLevel, printWarnLevel, color.YellowString(format, a...))
 }
 
 func (logger *Logger) Error(format string, a ...interface{}) {
-	logger.printf(errorLevel, printErrorLevel, format, a...)
+	logger.printf(errorLevel, printErrorLevel, color.RedString(format, a...))
 }
 
 func (logger *Logger) Fatal(format string, a ...interface{}) {
-	logger.printf(fatalLevel, printFatalLevel, format, a...)
+	logger.printf(fatalLevel, printFatalLevel, color.WhiteString(format, a...))
 }
 
 /* 如果日志记录在文件中，则将对应级别的日志信息写入在文件中，否则写入到标准输出 */

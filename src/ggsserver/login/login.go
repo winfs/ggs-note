@@ -67,7 +67,7 @@ func handleLoginRequest(args []interface{}) {
 	a := args[1].(gate.Agent)        // 消息的发送者
 	deviceId := m.GetDeviceId()
 	token := m.GetToken()
-	log.Info("++++++++++++++++ receive login request, token: %v", token)
+	log.Info("++++++++++++++++ receive login request token: %v", token)
 
 	userId, err := db.Redis.Cmd("HGET", "tokens", token).Str() // 根据token获取到userId
 	if err != nil {

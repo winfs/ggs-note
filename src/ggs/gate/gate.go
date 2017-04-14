@@ -1,4 +1,4 @@
-//网关模块，负责游戏客户端的接入
+// 网关模块，负责游戏客户端的接入
 package gate
 
 import (
@@ -11,20 +11,20 @@ import (
 
 var Service = new(Gate)
 
-//网关对象
+// 网关对象
 type Gate struct {
-	Processor    network.Processor //消息处理器
-	AgentChanRPC *chanrpc.Server   //rpc服务器引用
+	Processor    network.Processor // 消息处理器
+	AgentChanRPC *chanrpc.Server   // rpc模块
 }
 
-//初始化
+// 初始化
 func (gate *Gate) OnInit() {}
 
-//运行
+// 运行
 func (gate *Gate) Run(closeSig chan bool) {
 	var wsServer *network.WSServer
-	if conf.Env.WSAddr != "" { //如果配置中有设置WebSocket监听地址
-		wsServer = new(network.WSServer) //创建一个WebSocket服务器
+	if conf.Env.WSAddr != "" { // 如果配置中有设置WebSocket监听地址
+		wsServer = new(network.WSServer) // 创建一个WebSocket服务器
 	}
 
 	if wsServer != nil {

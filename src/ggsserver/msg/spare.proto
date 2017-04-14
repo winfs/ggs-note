@@ -1,0 +1,22 @@
+package msg;
+
+message Spare0 {
+}
+message Spare1 {
+}
+message Spare2 {
+}
+message Spare3 {
+}
+message Spare4 {
+}
+message Spare5 {
+}
+message Spare6 {
+}
+message Spare7 {
+}
+message Spare8 {
+}
+message Spare9 {
+}

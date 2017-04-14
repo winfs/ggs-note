@@ -26,7 +26,7 @@ type Status struct {
 func (m *Status) Reset()                    { *m = Status{} }
 func (m *Status) String() string            { return proto.CompactTextString(m) }
 func (*Status) ProtoMessage()               {}
-func (*Status) Descriptor() ([]byte, []int) { return fileDescriptor3, []int{0} }
+func (*Status) Descriptor() ([]byte, []int) { return fileDescriptor4, []int{0} }
 
 func (m *Status) GetCode() uint32 {
 	if m != nil && m.Code != nil {
@@ -67,9 +67,9 @@ func init() {
 	proto.RegisterType((*Status)(nil), "msg.Status")
 }
 
-func init() { proto.RegisterFile("status.proto", fileDescriptor3) }
+func init() { proto.RegisterFile("status.proto", fileDescriptor4) }
 
-var fileDescriptor3 = []byte{
+var fileDescriptor4 = []byte{
 	// 137 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x29, 0x2e, 0x49, 0x2c,
 	0x29, 0x2d, 0xd6, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0x62, 0xce, 0x2d, 0x4e, 0x57, 0x6a, 0x62,

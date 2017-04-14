@@ -17,5 +17,5 @@ func init() {
 	Processor.Register(&User{})   // 17
 
 	// request
-	Processor.Register(&LoginRequest{}) // 24
+	Processor.Register(&LoginRequest{}) // 5
 }
