@@ -10,14 +10,11 @@ var Processor = protobuf.NewProcessor()
 // 注册消息
 func init() {
 	// response
-	Processor.Register(&Hello{})        // 0
-	Processor.Register(&Status{})       // 1
-	Processor.Register(&Login{})        // 2
-	Processor.Register(&Error{})        // 16
-	Processor.Register(&User{})         // 17
-	Processor.Register(&proto.Spare1{}) // 18
-	Processor.Register(&proto.Spare2{}) // 19
-	Processor.Register(&proto.Spare3{}) // 20
+	Processor.Register(&Hello{})  // 0
+	Processor.Register(&Status{}) // 1
+	Processor.Register(&Login{})  // 2
+	Processor.Register(&Error{})  // 16
+	Processor.Register(&User{})   // 17
 
 	// request
 	Processor.Register(&LoginRequest{}) // 24
