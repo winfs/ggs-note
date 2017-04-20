@@ -72,7 +72,7 @@ func (server *WSServer) Start(newAgent func(*WSConn) Agent) {
 		log.Fatal("newAgent must not be nil")
 	}
 
-	ln, err := net.Listen("tcp", conf.Env.WSAddr) //建立一个tcp连接
+	ln, err := net.Listen("tcp", conf.Env.WSAddr) //建立一个websocket连接
 	if err != nil {
 		log.Fatal("%v", err)
 	}
